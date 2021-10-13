@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.telecom.Call;
+
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,9 @@ import com.example.crud_api.remote.UserService;
 
 import org.chromium.base.Log;
 
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -66,22 +69,7 @@ public class PostActivity extends AppCompatActivity {
         edtContent.setText(content);
         edtImgUrl.setText(imgUrl);
 
-        if(id != null && id.trim().length() > 0 ){
-            edtGroupName.setFocusable(false);
-        } else {
-            txtGroupName.setVisibility(View.INVISIBLE);
-            edtGroupName.setVisibility(View.INVISIBLE);
-            txtTitle.setVisibility(View.INVISIBLE);
-            edtTitle.setVisibility(View.INVISIBLE);
-            txtContent.setVisibility(View.INVISIBLE);
-            edtContent.setVisibility(View.INVISIBLE);
-            txtImgUrl.setVisibility(View.INVISIBLE);
-            edtImgUrl.setVisibility(View.INVISIBLE);
-            btnSave.setVisibility(View.INVISIBLE);
-            btnDel.setVisibility(View.INVISIBLE);
-        }
-
-        /*btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PostModel u = new PostModel();
@@ -90,11 +78,13 @@ public class PostActivity extends AppCompatActivity {
                 u.setContent(edtContent.getText().toString());
                 u.setImageUrl(edtImgUrl.getText().toString());
                 if(id != null && id.trim().length() > 0){
-                    //update user
-                    updateUser(Integer.parseInt(id), u);
+                    updatePost(id, u);
+                    Intent intent = new Intent(PostActivity.this, MainActivity.class);
+                    startActivity(intent);
                 } else {
-                    //add user
-                    addUser(u);
+                    addPost(u);
+                    Intent intent = new Intent(PostActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -102,61 +92,60 @@ public class PostActivity extends AppCompatActivity {
         btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteUser(Integer.parseInt(id));
-
+                deletePost(id);
                 Intent intent = new Intent(PostActivity.this, MainActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
     }
 
-    /*public void addUser(PostModel u){
-        Call<PostModel> call = userService.addPost(u);
-        call.enqueue(new Callback<PostModel>() {
+    public void addPost(PostModel u){
+        Call<ResponseParser> call = userService.addPost(u);
+        call.enqueue(new Callback<ResponseParser>() {
             @Override
-            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
+            public void onResponse(Call<ResponseParser> call, Response<ResponseParser> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(PostActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Created successfully!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PostModel> call, Throwable t) {
+            public void onFailure(Call<ResponseParser> call, Throwable t) {
                 Log.e("ERROR: ", t.getMessage());
             }
         });
     }
 
-    public void updateUser(int id, PostModel u){
-        Call<PostModel> call = userService.updatePost(id, u);
-        call.enqueue(new Callback<User>() {
+    public void updatePost(String id, PostModel u){
+        Call<ResponseParser> call = userService.updatePost(id, u);
+        call.enqueue(new Callback<ResponseParser>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<ResponseParser> call, Response<ResponseParser> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(UserActivity.this, "User updated successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Updated successfully!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<ResponseParser> call, Throwable t) {
                 Log.e("ERROR: ", t.getMessage());
             }
         });
     }
 
-    public void deleteUser(int id){
-        Call<PostModel> call = userService.deletePost(id);
-        call.enqueue(new Callback<PostModel>() {
+    public void deletePost(String id){
+        Call<ResponseParser> call = userService.deletePost(id);
+        call.enqueue(new Callback<ResponseParser>() {
             @Override
-            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
+            public void onResponse(Call<ResponseParser> call, Response<ResponseParser> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(PostActivity.this, "User deleted successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Deleted successfully!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<ResponseParser> call, Throwable t) {
                 Log.e("ERROR: ", t.getMessage());
             }
         });
@@ -171,5 +160,5 @@ public class PostActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }

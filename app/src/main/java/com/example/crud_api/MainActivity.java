@@ -28,7 +28,6 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
 
     Button btnAddUser;
-    Button btnGetUsersList;
     ListView listView;
 
     UserService userService;
@@ -39,44 +38,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         btnAddUser = (Button) findViewById(R.id.btnAddPost);
-        btnGetUsersList = (Button) findViewById(R.id.btnGetPostsList);
         listView = (ListView) findViewById(R.id.listView);
         userService = ApiUtils.getUserService();
-
-        btnGetUsersList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //get users list
-                getUsersList();
-            }
-        });
+        getUsersList();
 
         btnAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PostActivity.class);
-                intent.putExtra("user_name", "");
+                intent.putExtra("group_name", "");
                 startActivity(intent);
             }
         });
     }
 
     public void getUsersList(){
-        Call<List<PostModel>> call = userService.getPosts();
-        call.enqueue(new Callback<List<PostModel>>() {
+        Call<ResponseParser> call = userService.getPosts();
+        call.enqueue(new Callback<ResponseParser>() {
             @Override
-            public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
+            public void onResponse(Call<ResponseParser> call, Response<ResponseParser> response) {
                 if(response.isSuccessful()){
-                    list = response.body();
+                    list = response.body().getData();
                     listView.setAdapter(new PostAdapter(MainActivity.this, R.layout.list_post, list));
-                    Log.v("log:","dsfdsfsfsdd");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<PostModel>> call, Throwable t) {
+            public void onFailure(Call<ResponseParser> call, Throwable t) {
                 Log.e("ERROR: ", t.getMessage());
             }
         });

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        tools:ignore="MissingConstraints">
 
         <Button
             android:id="@+id/btnAddPost"
@@ -23,24 +23,12 @@
             android:layout_marginBottom="5dp"
             />
 
-        <Button
-            android:id="@+id/btnGetPostsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fetch Posts"
-            android:background="#32CD32"
-            android:textColor="#ffffff"
-            android:layout_marginBottom="5dp"
-            />
-
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </ListView>
-
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

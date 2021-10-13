@@ -19,6 +19,7 @@
             android:text="Group Name"
             android:textSize="20dp"
             android:layout_marginTop="5dp"
+            android:textStyle="bold"
             />
 
         <EditText
@@ -35,6 +36,7 @@
             android:text="Title"
             android:textSize="20dp"
             android:layout_marginTop="5dp"
+            android:textStyle="bold"
             />
 
         <EditText
@@ -49,6 +51,7 @@
             android:text="Content"
             android:textSize="20dp"
             android:layout_marginTop="5dp"
+            android:textStyle="bold"
             />
 
         <EditText
@@ -64,6 +67,7 @@
             android:text="Image Url"
             android:textSize="20dp"
             android:layout_marginTop="5dp"
+            android:textStyle="bold"
             />
 
         <EditText

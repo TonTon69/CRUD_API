@@ -1,6 +1,7 @@
 package com.example.crud_api.remote;
 
 import com.example.crud_api.Model.PostModel;
+import com.example.crud_api.ResponseParser;
 
 import java.util.List;
 
@@ -14,14 +15,14 @@ import retrofit2.http.Path;
 
 public interface UserService {
     @GET("article/18dthd3_nhom1")
-    Call<List<PostModel>> getPosts();
+    Call<ResponseParser> getPosts();
 
-    @POST("add/")
-    Call<PostModel> addPost(@Body PostModel postModel);
+    @POST("article/")
+    Call<ResponseParser> addPost(@Body PostModel postModel);
 
-    @PUT("update/{id}")
-    Call<PostModel> updatePost(@Path("id") int id, @Body PostModel postModel);
+    @PUT("article/{id}")
+    Call<ResponseParser> updatePost(@Path("id") String id, @Body PostModel postModel);
 
-    @DELETE("delete/{id}")
-    Call<PostModel> deletePost(@Path("id") int id);
+    @DELETE("article/{id}")
+    Call<ResponseParser> deletePost(@Path("id") String id);
 }

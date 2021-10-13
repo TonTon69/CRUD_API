@@ -1,9 +1,6 @@
 package com.example.crud_api.Model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class PostModel {
-
     private String _id;
     private String title;
     private String content;
